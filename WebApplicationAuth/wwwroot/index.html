@@ -64,7 +64,7 @@
             }
             else {
                 // если произошла ошибка, из errorText получаем текст ошибки
-                console.log("Error: ", response.status, data.errorText);
+                alert("Error: ", response.status, data.errorText);
             }
         };
 
@@ -106,10 +106,10 @@
             if (response.ok === true) {
 
                 const data = await response.json();
-                alert(data)
+                alert(data);
             }
             else
-                console.log("Status: ", response.status);
+                alert("Status: ", response.status);
         };
 
         // получаем токен

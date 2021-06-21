@@ -25,7 +25,7 @@ namespace WebApplicationAuth
         };
 
 
-        [HttpGet("me")]
+        [HttpGet("/me")]
         public string GetMe()
         {
             return HttpContext.User.Identity.Name;
@@ -70,9 +70,9 @@ namespace WebApplicationAuth
             var validationParameters = TokenHelper.GetJwtValidationParameters();
 
             var principal = tokenHandler.ValidateToken(
-                authToken,
+                 authToken,
                  validationParameters,
-                  out var validatedToken);
+                out var validatedToken);
         }
 
         [Route("google-login")]
@@ -88,8 +88,6 @@ namespace WebApplicationAuth
         [Route("google-response")]
         public async Task<IActionResult> GoogleResponse()
         {
-            var headers = HttpContext.Request.Headers.ToList();
-
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             var claims = result.Principal.Identities
@@ -111,6 +109,12 @@ namespace WebApplicationAuth
             return "Проверка связи";
         }
 
+        [HttpGet("me-win")]
+        public string WhoAmIAsWin()
+        {
+            return HttpContext.User?.Identity?.Name;
+        }
+
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
@@ -123,9 +127,11 @@ namespace WebApplicationAuth
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role),
                     new Claim("Age", "29"),
                 };
-                var claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
+                var claimsIdentity = new ClaimsIdentity(
+                                        claims,
+                                        "Token",
+                                        ClaimsIdentity.DefaultNameClaimType,
+                                        ClaimsIdentity.DefaultRoleClaimType);
                 return claimsIdentity;
             }
 

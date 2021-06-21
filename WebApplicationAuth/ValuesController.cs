@@ -7,15 +7,15 @@ namespace WebApplicationAuth
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        [Authorize]
-        [Route("getlogin")]
+        [Authorize( AuthenticationSchemes = "Bearer")]
+        [HttpGet("getlogin")]
         public IActionResult GetLogin()
         {
             return Ok($"Ваш логин: {User.Identity.Name}");
         }
 
-        [Authorize(Roles = "admin")]
-        [Route("getrole")]
+        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
+        [HttpGet("getrole")]
         public IActionResult GetRole()
         {
             return Ok("Ваша роль: администратор");
